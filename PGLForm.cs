@@ -172,7 +172,14 @@ namespace RJGL
             SKPoint point = new SKPoint(e.X, e.Y);
             InverseLayerLoop(
                 (Layer l) => l.IsInLayer(point) &&
-                l.OnMouseWheel(new EventArgs_Scroll(point, e.Delta / SystemInformation.MouseWheelScrollDelta))
+                l.OnMouseWheel(new EventArgs_Scroll(
+                    point,
+                    // if the scroll wheel delta is 0 then the scroll amount is 0
+                    // no div by 0 error
+                    SystemInformation.MouseWheelScrollDelta == 0?0:(
+                        e.Delta / SystemInformation.MouseWheelScrollDelta
+                    )
+                ))
             );
             base.OnMouseWheel(e);
             UpdateDrawing();

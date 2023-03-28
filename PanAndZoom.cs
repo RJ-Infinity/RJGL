@@ -73,15 +73,13 @@ namespace RJGL
         public void ZoomAt(float amount, SKPoint c)
         {
             SKPoint InitialWorldPos = ScreenToWorld(c);
+            // this check is needed as otherwise
+            // there will be div by 0 as zoom is
+            // divided by
+            if (zoom+amount == 0) { return; }
             zoom += amount;
-            if (zoom > MaxZoom)
-            {
-                zoom = MaxZoom;
-            }
-            if (zoom < MinZoom)
-            {
-                zoom = MinZoom;
-            }
+            if (zoom > MaxZoom) { zoom = MaxZoom; }
+            if (zoom < MinZoom) { zoom = MinZoom; }
             linked
             .Where((PanAndZoomLayer pzl) => pzl.Zoom != Zoom)
             .ToList()

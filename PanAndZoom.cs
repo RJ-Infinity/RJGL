@@ -81,6 +81,7 @@ namespace RJGL
             if (zoom > MaxZoom) { zoom = MaxZoom; }
             if (zoom < MinZoom) { zoom = MinZoom; }
             linked
+            // only zoom the layers with a different zoom level
             .Where((PanAndZoomLayer pzl) => pzl.Zoom != Zoom)
             .ToList()
             .ForEach((PanAndZoomLayer pzl) => {
@@ -105,6 +106,7 @@ namespace RJGL
         }
         public SKPoint ScreenToWorld(SKPoint s)
         {
+            // the reverse of world to screen
             SKPoint rv = s - offset;
             rv.X /= zoom;
             rv.Y /= zoom;
@@ -120,6 +122,7 @@ namespace RJGL
         public override bool OnMouseWheel(EventArgs_Scroll e)
         {
             if (AllowZoom(e)) {
+                // it zooms a tenth of the amount of mouse wheel clicks
                 ZoomAt(e.Clicks * 0.1f, e.Position);
             }
             return base.OnMouseWheel(e);
@@ -138,6 +141,7 @@ namespace RJGL
         public override bool OnMouseMove(EventArgs_MouseMove e)
         {
             if (Panning) {
+                // pan the amount the mouse has moved since the last move
                 Pan(e.Position - lastPos);
                 lastPos = e.Position;
             }

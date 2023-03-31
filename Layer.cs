@@ -90,6 +90,8 @@ namespace RJGL
         public virtual bool OnMouseDown(EventArgs_Click e)
         {
             MouseDown?.Invoke(this, e);
+            // return whether the event should be stopped at this handler
+            // and not propagate to the other layers
             return false;
         }
         public delegate void MouseUpEventHandler(object sender, EventArgs_Click e);
